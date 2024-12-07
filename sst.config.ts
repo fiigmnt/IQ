@@ -23,6 +23,10 @@ export default $config({
       environment: {
         TABLE_NAME: table.name, // Pass table name to environment
       },
+      domain: {
+        name: "iqcheck.fun",
+        redirects: ["www.iqcheck.fun"]
+      },
       link: [table]
     });
   },

@@ -6,13 +6,5 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "IQSite": {
-      "type": "sst.aws.Nextjs"
-      "url": string
-    }
-    "UserData": {
-      "name": string
-      "type": "sst.aws.Dynamo"
-    }
   }
 }

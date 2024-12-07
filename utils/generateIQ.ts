@@ -14,5 +14,5 @@ export default function generateIQ() {
     const iq = Math.round(z * standardDeviation + mean);
   
     // Ensure IQ is within a reasonable range (e.g., 55 to 145)
-    return Math.max(55, Math.min(145, iq));
+    return Math.max(45, Math.min(170, iq));
   }
