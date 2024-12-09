@@ -4,9 +4,13 @@ import React from "react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+import useSolana from "@/hooks/useSolana";
+import { useWallet } from "@solana/wallet-adapter-react";
+
 import styles from "./page.module.css";
 import Header from "@/components/Header";
-import { createTwitterPostUrl } from "@/utils";
+import ConnectWallet from "@/components/ConnectWallet";
+import Notification from "@/components/Notification";
 
 type Result = {
   score: string;
@@ -24,17 +28,23 @@ const elon = {
 };
 
 export default function Home() {
-  const [username, setUsername] = useState("elonmusk");
+  const [username, setUsername] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
+  const [showBuyChecks, setShowBuyChecks] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [checks, setChecks] = useState(0);
   const [hasShared, setHasShared] = useState(false);
+  const [showError, setShowError] = useState<string | null>(null);
+  const [showNotification, setShowNotification] = useState<string | null>(null);
+
+  const { buyChecks } = useSolana();
+  const { publicKey } = useWallet();
 
   useEffect(() => {
     const checks = localStorage.getItem("checks");
     // if user has no checks, give them one - else set from cookies
     if (!checks) {
-      localStorage.setItem("checks", "1");
+      localStorage.setItem("checks", "3");
       setChecks(1);
     } else {
       setChecks(parseInt(checks));
@@ -47,30 +57,52 @@ export default function Home() {
     }
   }, []);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    if (!username) {
+      setShowError("Please enter a username");
+      return;
+    }
+
     setAnalyzing(true);
 
     // decrement checks
     localStorage.setItem("checks", (checks - 1).toString());
     setChecks(checks - 1);
 
-    // TODO: call analyze endpoint
+    try {
+      // sanatize username
+      const cleanUsername = username.replace("@", "");
 
-    // for testing
-    setTimeout(() => {
-      setResult(elon);
+      const response = await fetch(`/api/iq/${cleanUsername}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result.success) {
+        setResult(result.data);
+      } else {
+        setShowError(result.message || "Analysis failed");
+      }
       setAnalyzing(false);
-    }, 3000);
+    } catch (error) {
+      setShowError("An error occurred during analysis");
+      console.error("Analysis error:", error);
+      setAnalyzing(false);
+    }
   };
 
   const handleShare = () => {
     // call share to twitter function
     if (result) {
-      const url = createTwitterPostUrl(result.username, result.score, getCategory(parseInt(result.score)));
+      const url = createTwitterPost(result.username, result.score, getCategory(parseInt(result.score)));
       window.open(url, "_blank");
     } else {
-      // TODO: handle this error properly
-      console.error("No result to share");
+      setShowError("No result to share");
     }
 
     // if first time user shared on twitter, give them a free check
@@ -83,10 +115,39 @@ export default function Home() {
     }
   };
 
-  // const handleBuy = () => {
-  //   console.log(`Buying checks`);
-  //   setResult(null);
-  // }
+  const handleBuy = async (checksAmount: number) => {
+    if (!publicKey) {
+      setShowError("Wallet not connected");
+      return;
+    }
+
+    try {
+      const result = await buyChecks(checksAmount);
+      if (result?.success) {
+        setShowNotification(`${checksAmount} checks bought successfully`);
+        localStorage.setItem("checks", (checks + checksAmount).toString());
+        setChecks(checks + checksAmount);
+        setResult(null);
+        setShowBuyChecks(false);
+      } else {
+        setShowError(result?.message || "Unable to buy checks");
+      }
+    } catch (error: any) {
+      setShowError("Unable to buy checks");
+      console.error("Unable to buy checks", error);
+    }
+  };
+
+  const createTwitterPost = (username: string, score: string, category: string) => {
+    const tweetText = `.@${username} has an IQ of ${score}. They are ${category} 🧠
+    
+Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
+
+    const encodedTweetText = encodeURIComponent(tweetText);
+    const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodedTweetText}`;
+
+    return twitterIntentUrl;
+  };
 
   const getCategory = (score: number) => {
     if (score < 70) {
@@ -120,6 +181,11 @@ export default function Home() {
     return "/images/results/3.png";
   };
 
+  const handleNotificationClose = () => {
+    setShowError(null);
+    setShowNotification(null);
+  };
+
   const mainContent = () => {
     if (analyzing) {
       return (
@@ -131,13 +197,61 @@ export default function Home() {
       );
     }
 
+    if (showBuyChecks) {
+      return (
+        <div className={styles.container}>
+          <div className={styles.buyChecksHeader}>
+            <h1>Buy more checks</h1>
+            <ConnectWallet />
+          </div>
+          <div className={styles.buyChecksContent}>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(1)}>
+              <h2>1 Check</h2>
+              <p>0.08 SOL</p>
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(2)}>
+              <h2>2 Checks</h2>
+              <p>1.4 SOL</p>
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(3)}>
+              <h2>3 Checks</h2>
+              <p>1.9 SOL</p>
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(4)}>
+              <h2>4 Checks</h2>
+              <p>2.4 SOL</p>
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(5)}>
+              <h2>5 Checks</h2>
+              <p>2.8 SOL</p>
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(6)}>
+              <h2>6 Checks</h2>
+              <p>3.2 SOL</p>
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     if (result) {
       return (
         <div className={styles.reasoningContainer}>
           <h1>IQ Score: {result.score}</h1>
-          <p className={styles.resultUsername}>
-            @{result.username} is {getCategory(parseInt(result.score))}
-          </p>
+          <div className={styles.resultUsername}>
+            <div className={styles.pfpContainer}>
+              <Image
+                src={result.image}
+                alt="User"
+                width={40} // Set width explicitly
+                height={40} // Set height explicitly
+                objectFit="cover" // Ensure the image fills the circle
+              />
+            </div>
+            <p className={styles.username}>
+              {result.username} is {getCategory(parseInt(result.score))}
+            </p>
+          </div>
           <div className={styles.reasoningImageContainer}>
             <Image src={calculateImage(parseInt(result.score))} alt="User" layout="fill" objectFit="contain" />
           </div>
@@ -169,7 +283,8 @@ export default function Home() {
   return (
     <>
       <Header checks={checks} />
-
+      {showError && <Notification message={showError} type="error" onClose={handleNotificationClose} />}
+      {showNotification && <Notification message={showNotification} type="info" onClose={handleNotificationClose} />}
       <div className={styles.page}>
         {mainContent()}
         <div className={styles.inputContainer}>
@@ -178,14 +293,19 @@ export default function Home() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            onFocus={() => setUsername("")}
             placeholder="𝕏 username"
           />
         </div>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={handleAnalyze}>
+          <button className={styles.button} onClick={handleAnalyze} disabled={!checks}>
             Analyze
           </button>
-          {/* <button className={styles.button} onClick={handleBuy}>Buy Checks</button> */}
+          {!checks && (
+            <button className={styles.button} onClick={() => setShowBuyChecks(true)}>
+              Buy Checks
+            </button>
+          )}
         </div>
       </div>
     </>

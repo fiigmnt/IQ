@@ -1,4 +1,4 @@
-import { generateReasoning, generateReasoningFromScore, getTwitterData, getUserInfo, checkWhitelist } from "@/utils";
+import { generateReasoning, generateReasoningFromScore, getTwitterData, getUserInfo, checkWhitelist, saveUserInfo } from "@/utils";
 
 // POST USER INFO ENDPOINT
 export async function POST(request: Request, { params }: { params: Promise<{ username: string }> }) {
@@ -30,10 +30,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ use
     // generate score and reasoning
     const { score, reasoning } = whiteListScore ? await generateReasoningFromScore(username, whiteListScore) : await generateReasoning(username, followerCount, followingCount, bio);
 
-    // TODO: REMOVED FOR TESTING
-    // await saveUserInfo(username, score.toString(), reasoning, image);
+    await saveUserInfo(username, score.toString(), reasoning, image);
 
-    return new Response(JSON.stringify({ success: true, data: { score, reasoning, image } }), { status: 200 });
+    return new Response(JSON.stringify({ success: true, data: { score, reasoning, image, username } }), { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ success: false, message: "Unable to generate response" }), { status: 500 });

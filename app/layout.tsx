@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+
 import Info from "@/components/Info";
 
 // TODO: update metadata

@@ -14,12 +14,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 50%;
   min-width: 400px;
   max-width: 600px;
   height: auto;
-  height: 500px;
   background-color: #fff;
   border-radius: 12px;
   border: 2px solid #000;
@@ -39,6 +38,8 @@
   background-color: #fff;
   border-radius: 12px;
   border: 2px solid #000;
+
+  text-align: center;
 }
 
 .textContainer {
@@ -61,7 +62,7 @@
 .imageContainer {
   margin-top: 10px;
   width: 100%;
-  height: 83%;
+  height: clamp(300px, 50vw, 400px);
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -78,14 +79,78 @@
 
 .analyzingContainer {
   width: 100%;
-  height: 100%;
+  height: 400px;
   position: relative;
   border-radius: 8px;
 }
 
 .resultUsername {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.pfpContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #000;
+}
+
+.username {
   font-size: 2.5rem;
   font-weight: 700;
+}
+
+.buyChecksHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.buyChecksHeader h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.buyChecksContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.buyChecksContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 16px; /* Add padding for spacing around the container */
+}
+
+.buyChecksBox {
+  width: 150px;
+  height: 150px;
+  padding: 0 10px;
+  border: 2px solid #000;
+  background-color: #fcf9f1;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  color: #000;
+  font-family: "Teacher", sans-serif;
+  font-size: 2rem;
+  text-align: center;
+
+  cursor: pointer;
 }
 
 /* INPUT STYLES */
@@ -154,6 +219,12 @@
   animation: shake 0.2s;
   animation-iteration-count: infinite;
   background-color: #ff4747;
+}
+
+.button:disabled {
+  background-color: #5b5b5b;
+  cursor: not-allowed;
+  animation: none;
 }
 
 .shareButton {

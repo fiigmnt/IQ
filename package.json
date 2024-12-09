@@ -15,6 +15,11 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.705.0",
     "@aws-sdk/lib-dynamodb": "^3.705.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
+    "@solana/web3.js": "1",
     "next": "15.0.3",
     "openai": "^4.75.0",
     "react": "19.0.0-rc-66855b96-20241106",
