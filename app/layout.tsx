@@ -4,10 +4,9 @@ import "./globals.css";
 
 import Info from "@/components/Info";
 
-// TODO: update metadata
 export const metadata: Metadata = {
-  title: "IQ",
-  description: "IQ twitter generator",
+  title: "IQ CHECK",
+  description: "Check your IQ from X",
 };
 
 export default function RootLayout({

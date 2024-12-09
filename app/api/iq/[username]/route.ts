@@ -1,7 +1,34 @@
-import { generateReasoning, generateReasoningFromScore, getTwitterData, getUserInfo, checkWhitelist, saveUserInfo } from "@/utils";
+import { generateReasoning, generateReasoningFromScore, getTwitterData, getUserInfo, checkWhitelist, saveUserInfo, rateLimit } from "@/utils";
 
 // POST USER INFO ENDPOINT
 export async function POST(request: Request, { params }: { params: Promise<{ username: string }> }) {
+  try {
+        // Extract IP address
+        const ip =
+        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || // Handles proxy headers
+        request.headers.get("cf-connecting-ip") || // Cloudflare
+        request.headers.get("client-ip") || // AWS ALB
+        "unknown";
+  
+      if (ip === "unknown") {
+        return new Response(
+          JSON.stringify({ success: false, message: "Unable to determine IP address" }),
+          { status: 400 }
+        );
+      }
+  
+      // Apply rate limiting
+      const { success, message } = await rateLimit(ip);
+  
+      if (!success) {
+        return new Response(JSON.stringify({ success: false, message }), { status: 429 });
+      }
+  
+  } catch (error) {
+    console.error("Rate limiting error:", error);
+    return new Response(JSON.stringify({ success: false, message: "Internal server error during rate limiting" }), { status: 500 });
+  }
+
   try {
     // get username from params
     const { username } = await params;
@@ -38,26 +65,3 @@ export async function POST(request: Request, { params }: { params: Promise<{ use
     return new Response(JSON.stringify({ success: false, message: "Unable to generate response" }), { status: 500 });
   }
 }
-
-// TODO: potentioally remove this endpoint
-// GET USER INFO ENDPOINT
-// export async function GET(request: Request, { params }: { params: { username: string } }) {
-//   const { username } = await params;
-
-//   if (!username) {
-//     return new Response(JSON.stringify({ success: false, message: "Username is required" }), { status: 400 });
-//   }
-
-//   try {
-//     const { success, data } = await getUserInfo(username);
-
-//     if (!success) {
-//       return new Response(JSON.stringify({ success: false, message: "User not found" }), { status: 404 });
-//     }
-
-//     return new Response(JSON.stringify({ success: true, data }), { status: 200 });
-//   } catch (error) {
-//     console.error(error);
-//     return new Response(JSON.stringify({ success: false, message: "Unable to fetch data" }), { status: 500 });
-//   }
-// }

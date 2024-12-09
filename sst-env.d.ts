@@ -10,6 +10,10 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
+    "RateLimitData": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
     "UserData": {
       "name": string
       "type": "sst.aws.Dynamo"

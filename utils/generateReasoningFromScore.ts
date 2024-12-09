@@ -21,6 +21,8 @@ export default async function generateReasoningFromScore(username: string, iqSco
       Here is the username of a twitter user: ${username}. I want you to pretend that you have read all of their tweets
       and are assigning them an iq score based on their tweets. You should be witty and sarcastic in your response.
 
+      If they are a famous please use data from the internet in their reasoning.
+
       I will provide the iq score, which is ${iqScore} and you'll provide the reasoning for the score.
 
       Please return just the reasoning in three sentences or less. Feel free to be rude if its mid or low.

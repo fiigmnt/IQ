@@ -1,0 +1,17 @@
+.main {
+  /* margin: 12px 0; */
+  color: var(--g);
+  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 16px;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+}

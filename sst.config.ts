@@ -10,24 +10,33 @@ export default $config({
     };
   },
   async run() {
-    // Create a new DynamoDB table
-    const table = new sst.aws.Dynamo("UserData", {
+    // Create a user dynamo table
+    const userTable = new sst.aws.Dynamo("UserData", {
       fields: {
         username: "string", // Partition key
       },
       primaryIndex: { hashKey: "username" },
     });
 
+    // Create a rate limit dynamo table
+    const rateLimitTable = new sst.aws.Dynamo("RateLimitData", {
+      fields: {
+        ip: "string", // Partition key
+      },
+      primaryIndex: { hashKey: "ip" },
+    });
+
     // Create a Next.js site
     new sst.aws.Nextjs("IQSite", {
-      environment: {
-        TABLE_NAME: table.name, // Pass table name to environment
-      },
       domain: {
         name: "iqcheck.fun",
         redirects: ["www.iqcheck.fun"]
       },
-      link: [table]
+      environment: {
+        RATE_LIMIT_TABLE_NAME: rateLimitTable.name,
+        USER_TABLE_NAME: userTable.name,
+      },
+      link: [userTable, rateLimitTable],
     });
   },
 });

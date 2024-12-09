@@ -23,9 +23,9 @@ export default async function getUserInfo(username: string) {
       return { success: false, message: "User not found" };
     }
 
-    const { score, reasoning } = result.Item;
+    const { score, reasoning, image } = result.Item;
 
-    return { success: true, data: { score, reasoning } };
+    return { success: true, data: { score, reasoning, image, username } };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Unable to fetch data" };

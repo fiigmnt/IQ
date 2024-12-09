@@ -6,6 +6,7 @@ import getTwitterData from "./getTwitterData";
 import generateReasoningFromScore from "./generateReasoningFromScore";
 import checkWhitelist from "./checkWhitelist";
 import setChecks from "./setChecks";
+import rateLimit from "./rateLimit";
 
 export {
   generateReasoning,
@@ -16,4 +17,5 @@ export {
   getTwitterData,
   checkWhitelist,
   setChecks,
+  rateLimit,
 };

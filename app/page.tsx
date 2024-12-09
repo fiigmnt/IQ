@@ -11,20 +11,14 @@ import styles from "./page.module.css";
 import Header from "@/components/Header";
 import ConnectWallet from "@/components/ConnectWallet";
 import Notification from "@/components/Notification";
+import Music from "@/components/Music";
+import Confetti from "react-confetti-boom";
 
 type Result = {
   score: string;
   reasoning: string;
   image: string;
   username: string;
-};
-
-const elon = {
-  score: "110",
-  reasoning:
-    "After an in-depth analysis of Elon Musk's tweets, it's evident that 161 might be the only IQ score that can keep up with his eccentric, yet genius, spontaneous outbursts about colonizing Mars, electric cars, and obscure cryptocurrency jokes. His tweets are a roller coaster ride, from genius insights to alien conspiracy theories, which is, frankly, a wild intellectual workout for any reader. It's like attending a TED Talk hosted by both Einstein and a stand-up comedian at the same time",
-  image: "https://pbs.twimg.com/profile_images/1858316737780781056/kPL61o0F_400x400.jpg",
-  username: "elonmusk",
 };
 
 export default function Home() {
@@ -44,7 +38,7 @@ export default function Home() {
     const checks = localStorage.getItem("checks");
     // if user has no checks, give them one - else set from cookies
     if (!checks) {
-      localStorage.setItem("checks", "3");
+      localStorage.setItem("checks", "1"); // TODO: update to 3 checks
       setChecks(1);
     } else {
       setChecks(parseInt(checks));
@@ -87,6 +81,7 @@ export default function Home() {
         setResult(result.data);
       } else {
         setShowError(result.message || "Analysis failed");
+        setResult(null);
       }
       setAnalyzing(false);
     } catch (error) {
@@ -132,7 +127,7 @@ export default function Home() {
       } else {
         setShowError(result?.message || "Unable to buy checks");
       }
-    } catch (error: any) {
+    } catch (error) {
       setShowError("Unable to buy checks");
       console.error("Unable to buy checks", error);
     }
@@ -178,7 +173,10 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
     if (score < 120) {
       return "/images/results/2.png";
     }
-    return "/images/results/3.png";
+    if (score < 139) {
+      return "/images/results/3.png";
+    }
+    return "/images/results/4.png";
   };
 
   const handleNotificationClose = () => {
@@ -236,6 +234,8 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
 
     if (result) {
       return (
+        <>
+        <Confetti mode="boom" particleCount={1000} spreadDeg={180} />
         <div className={styles.reasoningContainer}>
           <h1>IQ Score: {result.score}</h1>
           <div className={styles.resultUsername}>
@@ -262,6 +262,7 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
             Share On 𝕏{hasShared ? "" : " for free Check"}
           </button>
         </div>
+        </>
       );
     }
 
@@ -301,12 +302,14 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
           <button className={styles.button} onClick={handleAnalyze} disabled={!checks}>
             Analyze
           </button>
+          {/* TODO: SET SHOW BUY CHECKS IF NEEDED */}
           {!checks && (
-            <button className={styles.button} onClick={() => setShowBuyChecks(true)}>
+            <button className={styles.button} onClick={() => setShowBuyChecks(!showBuyChecks)}>
               Buy Checks
             </button>
           )}
         </div>
+        <Music />
       </div>
     </>
   );

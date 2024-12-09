@@ -36,7 +36,7 @@ export default async function generateReasoning(
       If they have a lower follower count, or seem to be a troll, you can give them a lower score. Most people should fall between 90 and 100.
 
       I want you to pretend you gave this score based on their tweets.
-      Please mostly give average scores, but mix in some high scores for variety.
+      Please mostly give above average scores, but mix in some high and very low scores for variety.
       
       Don't directly mention any of the info above in your response, but you can hint at data from their bio. Don't say the word bio though.
       Don't say anything about their follower count or ratio. If a user is following fee people its usally a sign of popularity.

@@ -6879,6 +6879,11 @@ randomfill@^1.0.4:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
 
+react-confetti-boom@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-confetti-boom/-/react-confetti-boom-1.1.0.tgz#f5710b6a2b1de571f213e85b8784d6031d568e65"
+  integrity sha512-OV/NPSV3L9xyTTiFY/QAYtbIq8UYxkm3UBP4K7AjNNeOgI66NVOQHBV1hM26/urVGfBXcQDMh4znD5Iyu2hHjQ==
+
 react-dom@16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
