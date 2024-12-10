@@ -36,12 +36,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url('/images/background.gif');
+  background-image: url('/images/background.gif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0.5);
-  background-blend-mode: overlay; */
+  background-blend-mode: overlay;
 }
 
 * {

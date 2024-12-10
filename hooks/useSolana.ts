@@ -9,12 +9,11 @@ const getCheckPrice = (numChecks: number): number => {
   }
 
   const pricing = {
-    1: 0.8,
-    2: 1.4,
-    3: 1.9,
-    4: 2.4,
-    5: 2.8,
-    6: 3.2,
+    1: 0.1,
+    2: 0.15,
+    5: 0.2,
+    10: 0.3,
+    20: 0.5,
   };
 
   // Use type assertion to tell TypeScript the key is valid
@@ -46,7 +45,7 @@ export default function useSolana() {
 
       // Replace with your wallet address
       const recipient = new PublicKey("8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd");
-      const amount = getCheckPrice(checksAmount) * 0.01 * 1e9; // 0.01 SOL in lamports TODO: update to correct amount
+      const amount = getCheckPrice(checksAmount) * 1e9; // 0.01 SOL in lamports TODO: update to correct amount
 
       // Create the transaction
       const transaction = new Transaction().add(

@@ -38,7 +38,7 @@ export default function Home() {
     const checks = localStorage.getItem("checks");
     // if user has no checks, give them one - else set from cookies
     if (!checks) {
-      localStorage.setItem("checks", "1"); // TODO: update to 3 checks
+      localStorage.setItem("checks", "1");
       setChecks(1);
     } else {
       setChecks(parseInt(checks));
@@ -102,7 +102,7 @@ export default function Home() {
 
     // if first time user shared on twitter, give them a free check
     if (!hasShared) {
-      const newChecks = checks + 1;
+      const newChecks = checks + 2;
       localStorage.setItem("checks", newChecks.toString());
       localStorage.setItem("hasShared", "true");
       setChecks(newChecks); // Update state
@@ -134,9 +134,9 @@ export default function Home() {
   };
 
   const createTwitterPost = (username: string, score: string, category: string) => {
-    const tweetText = `.@${username} has an IQ of ${score}. They are ${category} 🧠
+    const tweetText = `.@${username} has an #IQ of ${score}. They are ${category} 🧠
     
-Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
+What's your #IQ? Check now at @iqcheckdotfun`;
 
     const encodedTweetText = encodeURIComponent(tweetText);
     const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodedTweetText}`;
@@ -145,22 +145,22 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
   };
 
   const getCategory = (score: number) => {
-    if (score < 70) {
+    if (score < 80) {
       return "SEVERLY RETARDED";
     }
-    if (score < 84) {
+    if (score < 90) {
       return "RETARDED";
     }
-    if (score < 114) {
+    if (score < 100) {
       return "MID";
     }
-    if (score < 129) {
+    if (score < 130) {
       return "AVERAGE";
     }
-    if (score < 144) {
+    if (score < 140) {
       return "GIFTED";
     }
-    if (score < 159) {
+    if (score < 150) {
       return "A GENIUS";
     }
     return "A GIGA GENIUS";
@@ -205,27 +205,28 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
           <div className={styles.buyChecksContent}>
             <button className={styles.buyChecksBox} onClick={() => handleBuy(1)}>
               <h2>1 Check</h2>
-              <p>0.08 SOL</p>
+              <p>0.1 SOL</p>
+              <Image src="/images/brain.png" alt="Checks" width={75} height={75} />
             </button>
             <button className={styles.buyChecksBox} onClick={() => handleBuy(2)}>
               <h2>2 Checks</h2>
-              <p>1.4 SOL</p>
-            </button>
-            <button className={styles.buyChecksBox} onClick={() => handleBuy(3)}>
-              <h2>3 Checks</h2>
-              <p>1.9 SOL</p>
-            </button>
-            <button className={styles.buyChecksBox} onClick={() => handleBuy(4)}>
-              <h2>4 Checks</h2>
-              <p>2.4 SOL</p>
+              <p>0.15 SOL</p>
+              <Image src="/images/buy/2.png" alt="Checks" width={75} height={75} />
             </button>
             <button className={styles.buyChecksBox} onClick={() => handleBuy(5)}>
               <h2>5 Checks</h2>
-              <p>2.8 SOL</p>
+              <p>0.2 SOL</p>
+              <Image src="/images/buy/5.png" alt="Checks" width={75} height={75} />
             </button>
-            <button className={styles.buyChecksBox} onClick={() => handleBuy(6)}>
-              <h2>6 Checks</h2>
-              <p>3.2 SOL</p>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(10)}>
+              <h2>10 Checks</h2>
+              <p>0.3 SOL</p>
+              <Image src="/images/buy/10.png" alt="Checks" width={75} height={75} />
+            </button>
+            <button className={styles.buyChecksBox} onClick={() => handleBuy(20)}>
+              <h2>20 Checks</h2>
+              <p>0.5 SOL</p>
+              <Image src="/images/buy/20.png" alt="Checks" width={75} height={75} />
             </button>
           </div>
         </div>
@@ -235,33 +236,35 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
     if (result) {
       return (
         <>
-        <Confetti mode="boom" particleCount={1000} spreadDeg={180} />
-        <div className={styles.reasoningContainer}>
-          <h1>IQ Score: {result.score}</h1>
-          <div className={styles.resultUsername}>
-            <div className={styles.pfpContainer}>
-              <Image
-                src={result.image}
-                alt="User"
-                width={40} // Set width explicitly
-                height={40} // Set height explicitly
-                objectFit="cover" // Ensure the image fills the circle
-              />
+          <Confetti mode="boom" particleCount={1000} spreadDeg={180} />
+          <div className={styles.reasoningContainer}>
+            <h1>IQ Score: {result.score}</h1>
+            <div className={styles.resultUsername}>
+              <div className={styles.pfpContainer}>
+                <Image
+                  src={result.image}
+                  alt="User"
+                  width={40} // Set width explicitly
+                  height={40} // Set height explicitly
+                  objectFit="cover" // Ensure the image fills the circle
+                />
+              </div>
+              <p className={styles.username}>
+                {result.username} is {getCategory(parseInt(result.score))}
+              </p>
             </div>
-            <p className={styles.username}>
-              {result.username} is {getCategory(parseInt(result.score))}
-            </p>
+            <div className={styles.reasoningImageContainer}>
+              <Image src={calculateImage(parseInt(result.score))} alt="User" layout="fill" objectFit="contain" />
+            </div>
+            <div className={styles.textContainer}>
+              <p>{result.reasoning}</p>
+            </div>
+            <button className={styles.shareButton} onClick={handleShare}>
+              Share On 𝕏
+              <br />
+              {hasShared ? "" : " to get more checks"}
+            </button>
           </div>
-          <div className={styles.reasoningImageContainer}>
-            <Image src={calculateImage(parseInt(result.score))} alt="User" layout="fill" objectFit="contain" />
-          </div>
-          <div className={styles.textContainer}>
-            <p>{result.reasoning}</p>
-          </div>
-          <button className={styles.shareButton} onClick={handleShare}>
-            Share On 𝕏{hasShared ? "" : " for free Check"}
-          </button>
-        </div>
         </>
       );
     }
@@ -299,15 +302,19 @@ Think you can beat them? Test your IQ now at @iqcheckdotfun #IQ"`;
           />
         </div>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={handleAnalyze} disabled={!checks}>
-            Analyze
-          </button>
-          {/* TODO: SET SHOW BUY CHECKS IF NEEDED */}
-          {!checks && (
-            <button className={styles.button} onClick={() => setShowBuyChecks(!showBuyChecks)}>
-              Buy Checks
+          {!analyzing && (
+            <button className={styles.button} onClick={handleAnalyze} disabled={!checks}>
+              {!checks ? "No more" : "Analyze"}
+              <Image src="/images/brain.png" alt="Checks" width={40} height={40} />
             </button>
           )}
+          {/* TODO: SET SHOW BUY CHECKS IF NEEDED */}
+          {/* {!checks && (
+            <button className={styles.button} onClick={() => setShowBuyChecks(!showBuyChecks)}>
+              Buy
+              <Image src="/images/brain.png" alt="Checks" width={40} height={40} />
+            </button>
+          )} */}
         </div>
         <Music />
       </div>

@@ -15,7 +15,10 @@ const Header: React.FC<HeaderProps> = ({ checks }) => {
         <Image src="/images/logo.png" alt="Logo" width={100} height={100} />
       </div>
       <div className={styles.container}>
-        <div className={styles.checksContainer}>{checks} ☑️</div>
+        <div className={styles.checksContainer}>
+          {checks}
+          <Image src="/images/brain.png" alt="Logo" width={75} height={75} />
+        </div>
       </div>
     </header>
   );

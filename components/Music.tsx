@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 import styles from "./Music.module.css";
+import Link from "next/link";
 
 const Music: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
@@ -42,6 +43,9 @@ const Music: React.FC = () => {
           height={32}
         />
       </div>
+      <Link href="https://x.com/iqcheck.fun" target="new">
+        <Image src="/images/x.png" alt="Logo" width={40} height={40} />
+      </Link>
     </div>
   );
 };

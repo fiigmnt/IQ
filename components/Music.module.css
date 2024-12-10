@@ -6,6 +6,11 @@
   bottom: 0;
   right: 0;
   padding: 16px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
 }
 
 .button {

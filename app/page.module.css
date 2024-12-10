@@ -153,6 +153,10 @@
   cursor: pointer;
 }
 
+.buyChecksBox h2 {
+  font-size: 1.5rem;
+}
+
 /* INPUT STYLES */
 .inputContainer {
   display: flex;
@@ -166,7 +170,7 @@
 
 .inputBox {
   width: 100%;
-  height: 40px;
+  height: 50px;
   padding: 0 10px;
   border: 2px solid #000;
   background-color: #fcf9f1;
@@ -200,6 +204,10 @@
 }
 
 .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   width: 50%;
   padding: 10px 20px;
   background: #000;
@@ -213,6 +221,8 @@
   text-transform: capitalize;
 
   animation: pulse 0.5s ease-in-out infinite;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px 2px rgb(220, 75, 99);
 }
 
 .button:hover {
@@ -238,7 +248,7 @@
   font-size: 2rem;
   transition: background-color 0.3s ease;
   font-family: "Teacher", sans-serif;
-  text-transform: capitalize;
+  text-transform: uppercase;
 
   animation: pulse 0.5s ease-in-out infinite;
 }

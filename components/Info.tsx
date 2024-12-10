@@ -39,7 +39,7 @@ const Info = () => {
             </div>
             <div className={styles.content}>
               <p>
-                <strong>Enjoy one 🆓 check</strong> + another for sharing to 𝕏 !
+                <strong>Enjoy one 🆓 🧠</strong> + more sharing to 𝕏 !
               </p>
             </div>
           </div>

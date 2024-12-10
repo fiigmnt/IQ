@@ -5,7 +5,7 @@ import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dyn
 const client = new DynamoDBClient({});
 const ddb = DynamoDBDocumentClient.from(client);
 
-const RATE_LIMIT = 50; // Max requests allowed
+const RATE_LIMIT = 150; // Max requests allowed
 const TIME_FRAME = 24 * 60 * 60 * 1000; // Time frame in milliseconds (1 day)
 
 export default async function rateLimit(ip: string): Promise<{ success: boolean; message: string }> {

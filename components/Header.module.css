@@ -16,8 +16,12 @@
 }
 
 .checksContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: "WhatDo", sans-serif;
   font-size: 3rem;
+  gap: 16px;
 }
 
 .button {
