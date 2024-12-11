@@ -39,7 +39,7 @@ const Info = () => {
             </div>
             <div className={styles.content}>
               <p>
-                <strong>Enjoy one 🆓 🧠</strong> + more sharing to 𝕏 !
+              Get 1 🆓 IQ Check 🧠 + 2 Bonus IQ Checks 🧠 🧠  when you share on 𝕏 !
               </p>
             </div>
           </div>

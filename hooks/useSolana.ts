@@ -33,7 +33,7 @@ type BuyChecksResponse = {
 };
 
 export default function useSolana() {
-  const { connected, publicKey, sendTransaction } = useWallet();
+  const { publicKey, sendTransaction } = useWallet();
 
   async function buyChecks(checksAmount: number): Promise<BuyChecksResponse | undefined> {
     if (!publicKey) {
@@ -44,8 +44,8 @@ export default function useSolana() {
       const connection = new Connection(RPC);
 
       // Replace with your wallet address
-      const recipient = new PublicKey("8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd");
-      const amount = getCheckPrice(checksAmount) * 1e9; // 0.01 SOL in lamports TODO: update to correct amount
+      const recipient = new PublicKey("3PUtpwMnQsX4tH7fQLNRzEv12VG6U1L9GZ8ZKrg5GYcw");
+      const amount = getCheckPrice(checksAmount) * 1e9;
 
       // Create the transaction
       const transaction = new Transaction().add(

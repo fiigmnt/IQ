@@ -39,7 +39,7 @@ export default async function generateReasoning(
       Please mostly give above average scores, but mix in some high and very low scores for variety.
       
       Don't directly mention any of the info above in your response, but you can hint at data from their bio. Don't say the word bio though.
-      Don't say anything about their follower count or ratio. If a user is following fee people its usally a sign of popularity.
+      Don't say anything about their follower count or ratio. If a user is following few people its usally a sign of popularity.
 
       You should be witty and sarcastic in your response. Be very rude even if the number is high.
 

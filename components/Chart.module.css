@@ -1,0 +1,153 @@
+/* Overlay for the blurred background */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Dull the background with a semi-transparent overlay */
+    backdrop-filter: blur(5px); /* Add a blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it is above other content */
+  }
+  
+  /* Popup container */
+  .popup {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    animation: fadeIn 0.3s ease-in-out;
+
+    width: 420px;
+
+    font-size: 15px;
+  }
+
+  .box {
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .chartContainer {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .chartRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-family: "Teacher", sans-serif;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+  }
+
+  .chartImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #000;
+    z-index: 100;
+  }
+
+  .chartImageTwo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #000;
+    margin-left: -55px;
+    z-index: 10;
+  }
+  .chartImageThree {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    overflow: hidden;
+    margin-left: -55px;
+  }
+
+  .chartScore {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    width: 20%;
+  }
+
+  .chartItem {
+    width: 50%;
+    text-transform: uppercase;
+  }
+
+  .content {
+    padding: 10px 0;
+  }
+
+  .content p {
+    padding: 3px 0;
+  }
+  
+  /* Close button */
+  .closeButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: background-color 0.3s ease;
+    font-family: "Teacher", sans-serif;
+    text-transform: capitalize;
+  }
+
+  .closeButton:hover {
+    animation: shake 0.2s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .closeButton:hover {
+    background-color: #ff4747;
+  }
+  
+  /* Fade-in animation for the popup */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

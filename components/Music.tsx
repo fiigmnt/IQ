@@ -34,7 +34,7 @@ const Music: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <audio ref={audioRef} src={"/assets/succession.mp3"} autoPlay muted={isMuted} />
+      <audio ref={audioRef} src={"/assets/succession.mp3"} autoPlay loop muted={isMuted} />
       <div className={styles.button} onClick={toggleMute}>
         <Image
           src={isMuted ? "/icons/sound-off.svg" : "/icons/sound-on.svg"}
@@ -43,7 +43,7 @@ const Music: React.FC = () => {
           height={32}
         />
       </div>
-      <Link href="https://x.com/iqcheck.fun" target="new">
+      <Link href="https://x.com/iqcheckdotfun" target="new">
         <Image src="/images/x.png" alt="Logo" width={40} height={40} />
       </Link>
     </div>

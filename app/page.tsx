@@ -13,6 +13,7 @@ import ConnectWallet from "@/components/ConnectWallet";
 import Notification from "@/components/Notification";
 import Music from "@/components/Music";
 import Confetti from "react-confetti-boom";
+import Chart from "@/components/Chart";
 
 type Result = {
   score: string;
@@ -30,6 +31,7 @@ export default function Home() {
   const [hasShared, setHasShared] = useState(false);
   const [showError, setShowError] = useState<string | null>(null);
   const [showNotification, setShowNotification] = useState<string | null>(null);
+  const [isChartVisible, setIsChartVisible] = useState(false);
 
   const { buyChecks } = useSolana();
   const { publicKey } = useWallet();
@@ -53,7 +55,7 @@ export default function Home() {
 
   const handleAnalyze = async () => {
     if (!username) {
-      setShowError("Please enter a username");
+      setShowError("Please enter an 𝕏 username");
       return;
     }
 
@@ -82,8 +84,10 @@ export default function Home() {
       } else {
         setShowError(result.message || "Analysis failed");
         setResult(null);
+        setUsername("");
       }
       setAnalyzing(false);
+      setUsername("");
     } catch (error) {
       setShowError("An error occurred during analysis");
       console.error("Analysis error:", error);
@@ -146,34 +150,31 @@ What's your #IQ? Check now at @iqcheckdotfun`;
 
   const getCategory = (score: number) => {
     if (score < 80) {
-      return "SEVERLY RETARDED";
+      return "SEVERELY RETARDED";
     }
     if (score < 90) {
-      return "RETARDED";
+      return "a RETARD";
     }
-    if (score < 100) {
-      return "MID";
+    if (score < 120) {
+      return "a MIDWIT";
     }
     if (score < 130) {
-      return "AVERAGE";
+      return "a GENIUS";
     }
-    if (score < 140) {
-      return "GIFTED";
-    }
-    if (score < 150) {
-      return "A GENIUS";
-    }
-    return "A GIGA GENIUS";
+    return "a GIGA GENIUS";
   };
 
   const calculateImage = (score: number) => {
-    if (score < 85) {
+    if (score < 80) {
+      return "/images/results/0.png";
+    }
+    if (score < 90) {
       return "/images/results/1.png";
     }
     if (score < 120) {
       return "/images/results/2.png";
     }
-    if (score < 139) {
+    if (score < 130) {
       return "/images/results/3.png";
     }
     return "/images/results/4.png";
@@ -238,6 +239,11 @@ What's your #IQ? Check now at @iqcheckdotfun`;
         <>
           <Confetti mode="boom" particleCount={1000} spreadDeg={180} />
           <div className={styles.reasoningContainer}>
+            <div className={styles.chartInfo}>
+              <button className={styles.chartButton} onClick={() => setIsChartVisible(true)}>
+                <Image src="/images/info.png" alt="Info" width={40} height={40} />
+              </button>
+            </div>
             <h1>IQ Score: {result.score}</h1>
             <div className={styles.resultUsername}>
               <div className={styles.pfpContainer}>
@@ -272,12 +278,21 @@ What's your #IQ? Check now at @iqcheckdotfun`;
     return (
       <>
         <div className={styles.container}>
+          <div className={styles.chartInfo}>
+            <button className={styles.chartButton} onClick={() => setIsChartVisible(true)}>
+              <Image src="/images/info.png" alt="Info" width={40} height={40} />
+            </button>
+          </div>
           <div className={styles.infoContainer}>
             <h1 className={styles.title}>Check your IQ</h1>
-            <p className={styles.description}>Are you retarded?</p>
+            <p className={styles.description}>Are you smarter than your friends?</p>
           </div>
           <div className={styles.imageContainer}>
             <Image src="/images/chart.png" alt="chart" layout="fill" objectFit="contain" />
+          </div>
+          <div className={styles.description}>
+            Powered by
+            <Image src="/images/grok.png" alt="Solana" width={20} height={20} />
           </div>
         </div>
       </>
@@ -287,6 +302,7 @@ What's your #IQ? Check now at @iqcheckdotfun`;
   return (
     <>
       <Header checks={checks} />
+      <Chart isChartVisible={isChartVisible} setIsChartVisible={setIsChartVisible} />
       {showError && <Notification message={showError} type="error" onClose={handleNotificationClose} />}
       {showNotification && <Notification message={showNotification} type="info" onClose={handleNotificationClose} />}
       <div className={styles.page}>
