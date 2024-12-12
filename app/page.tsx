@@ -67,7 +67,7 @@ export default function Home() {
 
     try {
       // sanatize username
-      const cleanUsername = username.replace("@", "");
+      const cleanUsername = username.replace("@", "").toLowerCase();
 
       const response = await fetch(`/api/iq/${cleanUsername}`, {
         method: "POST",
